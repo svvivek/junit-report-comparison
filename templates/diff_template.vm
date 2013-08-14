@@ -1,0 +1,473 @@
+#*
+ The MIT License (MIT)
+
+ Copyright (c) 2013 Vijayan T, Vivekanand S V
+
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+*#
+
+<html>
+<head>
+#set($oldReport = $diff.getOldReport())
+#set($newReport = $diff.getNewReport())
+<title>JUnit Report Comparison Between $oldReport.getReportName() and $newReport.getReportName()</title>
+<script src="js/jquery-1.10.2.min.js"></script> 
+<script src="js/bootstrap.js"></script>
+<link href="css/bootstrap.css" rel="stylesheet">
+
+<script>
+function diffContent(obj)
+{
+	$(".modal-body").html("");
+	$(".modal-body").html(document.getElementById(obj).innerHTML);
+}
+</script>
+
+</head>
+<body>
+	<div class="container-fluid">
+  		<div class="row-fluid">
+  			<h3>JUnit Report Comparison</h3>
+  			<table class="table table-bordered table-hover">
+  				<thead>
+   					<tr>
+      					<th>Report Name</th>
+      					<th>Total Cases</th>
+      					<th>Failed Cases</th>
+      					<th>Error Cases</th>
+      					<th>Pass Percentage</th>
+      					<th>Time Taken (Sec.)</th>
+    				</tr>
+  				</thead>
+  				<tbody>
+    				<tr>
+    					#set($spanId = $oldReport.getReportName())
+        				#set($spanId = $spanId.replace(".","_").replace("[","_").replace("]","_"))
+      					<td><a href="#myModal" data-toggle="modal" onclick="diffContent('$spanId')">$oldReport.getReportName()
+							<span style="display:none" id="$spanId">
+							<p><b>Report Name : - </b> $oldReport.getReportName()</p>
+							<p><b>Report Path : - </b> $oldReport.getReportPath()</p>
+							<p><b>Total Packages : - </b> $oldReport.getTestPackages().size()</p>
+							<p><b>Total Classes : - </b> $oldReport.getTotalClasses()</p>
+							<p><b>Failure Percentage : - </b> $oldReport.getFailurePercentage() %</p>
+							<p><b>Error Percentage : - </b> $oldReport.getErrorPercentage() %</p>
+							</span>									
+							</a></td>
+      					<td>$oldReport.getTotalCases()</td>
+      					<td>$oldReport.getTotalFailedCases()</td>
+      					<td>$oldReport.getTotalErrorCases()</td>
+      					<td>$oldReport.getPassPercentage() %</td>
+      					<td>~ $oldReport.getTotalTimeTaken()</td>
+      				</tr>
+    				<tr>
+    					#set($spanId = $newReport.getReportName())
+        				#set($spanId = $spanId.replace(".","_").replace("[","_").replace("]","_"))
+      					<td><a href="#myModal" data-toggle="modal" onclick="diffContent('$spanId')">$newReport.getReportName()
+							<span style="display:none" id="$spanId">
+							<p><b>Report Name : - </b> $newReport.getReportName()</p>
+							<p><b>Report Path : - </b> $newReport.getReportPath()</p>
+							<p><b>Total Packages : - </b> $newReport.getTestPackages().size()</p>
+							<p><b>Total Classes : - </b> $newReport.getTotalClasses()</p>
+							<p><b>Failure Percentage : - </b> $newReport.getFailurePercentage() %</p>
+							<p><b>Error Percentage : - </b> $newReport.getErrorPercentage() %</p>
+							</span>									
+							</a></td>
+      					<td>$newReport.getTotalCases()</td>
+      					<td>$newReport.getTotalFailedCases()</td>
+      					<td>$newReport.getTotalErrorCases()</td>
+      					<td>$newReport.getPassPercentage() %</td>
+      					<td>~ $newReport.getTotalTimeTaken()</td>
+      				</tr>
+  				</tbody>
+  			</table>
+			<h4>Difference</h4>
+			<div class="accordion" id="accordion2">
+				#set($map = $diff.getPF_Cases())
+  				<div class="accordion-group">
+					<div class="accordion-heading">
+      					<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#PF_Cases">
+        					Pass To Fail Cases - $map.size()
+      					</a>
+    				</div> 
+					#if($map.size() > 0)
+    					<div id="PF_Cases" class="accordion-body collapse">
+      						<div class="accordion-inner">
+      							<ul>
+        						#foreach($pf_Case in $map)
+        							#set($spanId = $pf_Case.getFullClassName()+"_"+$pf_Case.getCaseName())
+        							#set($spanId = $spanId.replace(".","_").replace("[","_").replace("]","_"))
+									<li>$pf_Case.getFullClassName().<a href="#myModal" data-toggle="modal" onclick="diffContent('$spanId')">$pf_Case.getCaseName()
+									<span style="display:none" id="$spanId">
+									<p><b>Failure Message : - </b></p>
+									<p>$pf_Case.getErrorMsg()</p>
+									<p><b>Failure Type : - </b></p>
+									<p>$pf_Case.getErrorType()</p>
+									<p><b>Failure Trace : - </b></p>
+									<p>$pf_Case.getErrorTrace()</p>
+									</span>									
+									</a></li> 									
+        						#end
+        						</ul>
+							</div>
+    					</div>
+					#end
+				</div>
+				#set($map = $diff.getFP_Cases())
+  				<div class="accordion-group">
+    				<div class="accordion-heading">
+      					<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#FP_Cases">
+        					Fail To Pass Cases - $map.size()
+      					</a>
+    				</div>
+					#if($map.size() > 0)
+    					<div id="FP_Cases" class="accordion-body collapse">
+      						<div class="accordion-inner">
+        						<ul>
+        							#foreach ($key in $map.keySet())
+										#set($newTestCase = $map.get($key))
+										#set($oldTestCase = $key)
+        								#set($spanId = $oldTestCase.getFullClassName()+"_"+$oldTestCase.getCaseName())
+        								#set($spanId = $spanId.replace(".","_").replace("[","_").replace("]","_"))
+										<li>$oldTestCase.getFullClassName().<a href="#myModal" data-toggle="modal" onclick="diffContent('$spanId')">$oldTestCase.getCaseName()
+										<span style="display:none" id="$spanId">
+										<p><b>Old Failure Message : - </b></p>
+										<p>$oldTestCase.getErrorMsg()</p>
+										<p><b>Old Failure Type : - </b></p>
+											<p>$oldTestCase.getErrorType()</p>
+										<p><b>Old Failure Trace : - </b></p>
+										<p>$oldTestCase.getErrorTrace()</p>
+										</span>									
+										</a></li> 									
+        							#end
+        						</ul>
+      						</div>
+    					</div>
+					#end
+  				</div>
+				#set($map = $diff.getPE_Cases())
+  				<div class="accordion-group">
+    				<div class="accordion-heading">
+      					<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#PE_Cases">
+        					Pass To Error Cases - $map.size()
+      					</a>
+    				</div>
+					#if($map.size() > 0)
+    					<div id="PE_Cases" class="accordion-body collapse">
+      						<div class="accordion-inner">
+        						<ul>
+        						#foreach($pe_Case in $diff.getPE_Cases())
+        							#set($spanId = $pe_Case.getFullClassName()+"_"+$pe_Case.getCaseName())
+        							#set($spanId = $spanId.replace(".","_").replace("[","_").replace("]","_"))
+									<li>$pe_Case.getFullClassName().<a href="#myModal" data-toggle="modal" onclick="diffContent('$spanId')">$pe_Case.getCaseName()
+									<span style="display:none" id="$spanId">
+									<p><b>Error Message : - </b></p>
+									<p>$pe_Case.getErrorMsg()</p>
+									<p><b>Error Type : - </b></p>
+									<p>$pe_Case.getErrorType()</p>
+									<p><b>Error Trace : - </b></p>
+									<p>$pe_Case.getErrorTrace()</p>
+									</span>									
+									</a></li> 									
+        						#end
+        						</ul>
+      						</div>
+    					</div>
+					#end
+  				</div>
+				#set($map = $diff.getEP_Cases())
+  				<div class="accordion-group">
+    				<div class="accordion-heading">
+      					<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#EP_Cases">
+        					Error To Pass Cases - $map.size()
+      					</a>
+    				</div>
+					#if($map.size() > 0)
+    					<div id="EP_Cases" class="accordion-body collapse">
+      						<div class="accordion-inner">
+        						<ul>
+        						#foreach ($key in $map.keySet())
+									#set($newTestCase = $map.get($key))
+									#set($oldTestCase = $key)
+        							#set($spanId = $oldTestCase.getFullClassName()+"_"+$oldTestCase.getCaseName())
+        							#set($spanId = $spanId.replace(".","_").replace("[","_").replace("]","_"))
+									<li>$oldTestCase.getFullClassName().<a href="#myModal" data-toggle="modal" onclick="diffContent('$spanId')">$oldTestCase.getCaseName()
+									<span style="display:none" id="$spanId">
+									<p><b>Old Error Message : - </b></p>
+									<p>$oldTestCase.getErrorMsg()</p>
+									<p><b>Old Error Type : - </b></p>
+									<p>$oldTestCase.getErrorType()</p>
+									<p><b>Old Error Trace : - </b></p>
+									<p>$oldTestCase.getErrorTrace()</p>
+									</span>									
+									</a></li> 									
+        						#end
+        						</ul>
+      						</div>
+    					</div>
+					#end
+  				</div>
+				#set($map = $diff.getFE_Cases())
+  				<div class="accordion-group">
+    				<div class="accordion-heading">
+      					<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#FE_Cases">
+        					Fail To Error Cases - $map.size()
+      					</a>
+    				</div>
+					#if($map.size() > 0)
+    					<div id="FE_Cases" class="accordion-body collapse">
+      						<div class="accordion-inner">
+        						<ul>
+        						#foreach ($key in $map.keySet())
+									#set($newTestCase = $map.get($key))
+									#set($oldTestCase = $key)
+        							#set($spanId = $oldTestCase.getFullClassName()+"_"+$oldTestCase.getCaseName())
+        							#set($spanId = $spanId.replace(".","_").replace("[","_").replace("]","_"))
+									<li>$oldTestCase.getFullClassName().<a href="#myModal" data-toggle="modal" onclick="diffContent('$spanId')">$oldTestCase.getCaseName()
+									<span style="display:none" id="$spanId">
+									<p><b>Old Failure Message : - </b></p>
+									<p>$oldTestCase.getErrorMsg()</p>
+									<p><b>New Error Message : - </b></p>
+									<p>$newTestCase.getErrorMsg()</p>
+									<p><b>Old Failure Type : - </b></p>
+									<p>$oldTestCase.getErrorType()</p>
+									<p><b>New Error Type : - </b></p>
+									<p>$newTestCase.getErrorType()</p>
+									<p><b>Old Failure Trace : - </b></p>
+									<p>$oldTestCase.getErrorTrace()</p>
+									<p><b>New Error Trace : - </b></p>
+									<p>$newTestCase.getErrorTrace()</p>
+									</span>									
+									</a></li> 									
+        						#end
+        						</ul>
+      						</div>
+    					</div>
+					#end
+  				</div>
+				#set($map = $diff.getEF_Cases())
+  				<div class="accordion-group">
+    				<div class="accordion-heading">
+      					<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#EF_Cases">
+        					Error To Fail Cases - $map.size()
+      					</a>
+    				</div>
+					#if($map.size() > 0)
+    					<div id="EF_Cases" class="accordion-body collapse">
+      						<div class="accordion-inner">
+        						<ul>
+        						#foreach ($key in $map.keySet())
+									#set($newTestCase = $map.get($key))
+									#set($oldTestCase = $key)
+        							#set($spanId = $oldTestCase.getFullClassName()+"_"+$oldTestCase.getCaseName())
+        							#set($spanId = $spanId.replace(".","_").replace("[","_").replace("]","_"))
+									<li>$oldTestCase.getFullClassName().<a href="#myModal" data-toggle="modal" onclick="diffContent('$spanId')">$oldTestCase.getCaseName()
+									<span style="display:none" id="$spanId">
+									<p><b>Old Error Message : - </b></p>
+									<p>$oldTestCase.getErrorMsg()</p>
+									<p><b>New Failure Message : - </b></p>
+									<p>$newTestCase.getErrorMsg()</p>
+									<p><b>Old Error Type : - </b></p>
+									<p>$oldTestCase.getErrorType()</p>
+									<p><b>New Failure Type : - </b></p>
+									<p>$newTestCase.getErrorType()</p>
+									<p><b>Old Error Trace : - </b></p>
+									<p>$oldTestCase.getErrorTrace()</p>
+									<p><b>New Failure Trace : - </b></p>
+									<p>$newTestCase.getErrorTrace()</p>
+									</span>									
+									</a></li> 									
+        						#end
+        						</ul>
+      						</div>
+    					</div>
+					#end
+  				</div>
+				#set($map = $diff.getCasesDifferingInFailure())
+  				<div class="accordion-group">
+    				<div class="accordion-heading">
+      					<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#casesDifferInFailure">
+        					Cases Differing in Failure - $map.size()
+      					</a>
+    				</div>
+					#if($map.size() > 0)
+    					<div id="casesDifferInFailure" class="accordion-body collapse">
+      						<div class="accordion-inner">
+        						<ul>
+								#foreach ($key in $map.keySet())
+									#set($newTestCase = $map.get($key))
+									#set($oldTestCase = $key)
+        							#set($spanId = $newTestCase.getFullClassName()+"_"+$newTestCase.getCaseName())
+        							#set($spanId = $spanId.replace(".","_").replace("[","_").replace("]","_"))  								
+									<li>$newTestCase.getFullClassName().<a href="#myModal" data-toggle="modal" onclick="diffContent('$spanId')">$newTestCase.getCaseName()
+									<span style="display:none" id="$spanId">
+									<p><b>Old Failure Message : - </b></p>
+									<p>$oldTestCase.getErrorMsg()</p>
+									<p><b>New Failure Message : - </b></p>
+									<p>$newTestCase.getErrorMsg()</p>
+									<p><b>Old Failure Type : - </b></p>
+									<p>$oldTestCase.getErrorType()</p>
+									<p><b>New Failure Type : - </b></p>
+									<p>$newTestCase.getErrorType()</p>
+									<p><b>Old Failure Trace : - </b></p>
+									<p>$oldTestCase.getErrorTrace()</p>
+									<p><b>New Failure Trace : - </b></p>
+									<p>$newTestCase.getErrorTrace()</p>
+									</span>
+									</a></li>
+								#end
+    							</ul>
+      						</div>
+    					</div>
+					#end
+  				</div>
+				#set($map = $diff.getCasesDifferingInError())
+  				<div class="accordion-group">
+    				<div class="accordion-heading">
+      					<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#casesDifferInError">
+        					Cases Differing in Error - $map.size()
+      					</a>
+    				</div>
+					#if($map.size() > 0)
+    					<div id="casesDifferInError" class="accordion-body collapse">
+      						<div class="accordion-inner">
+        						<ul>
+								#foreach ($key in $map.keySet())
+									#set($newTestCase = $map.get($key))
+									#set($oldTestCase = $key)
+        							#set($spanId = $newTestCase.getFullClassName()+"_"+$newTestCase.getCaseName())
+        							#set($spanId = $spanId.replace(".","_").replace("[","_").replace("]","_"))  								
+									<li>$newTestCase.getFullClassName().<a href="#myModal" data-toggle="modal" onclick="diffContent('$spanId')">$newTestCase.getCaseName()
+									<span style="display:none" id="$spanId">
+									<p><b>Old Error Message : - </b></p>
+									<p>$oldTestCase.getErrorMsg()</p>
+									<p><b>New Error Message : - </b></p>
+									<p>$newTestCase.getErrorMsg()</p>
+									<p><b>Old Error Type : - </b></p>
+									<p>$oldTestCase.getErrorType()</p>
+									<p><b>New Error Type : - </b></p>
+									<p>$newTestCase.getErrorType()</p>
+									<p><b>Old Error Trace : - </b></p>
+									<p>$oldTestCase.getErrorTrace()</p>
+									<p><b>New Error Trace : - </b></p>
+									<p>$newTestCase.getErrorTrace()</p>
+									</span>
+									</a></li>
+								#end
+    							</ul>
+      						</div>
+    					</div>
+    				#end
+  				</div>
+				#set($map = $diff.getAddedCases())
+				<div class="accordion-group">
+    				<div class="accordion-heading">
+      					<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#addedCases">
+        					Added Cases - $map.size()
+      					</a>
+    				</div>
+					#if($map.size() > 0)
+    				<div id="addedCases" class="accordion-body collapse">
+      					<div class="accordion-inner">
+        						<ul>
+								#foreach ($testCase in $map)
+        							#set($spanId = $testCase.getFullClassName()+"_"+$testCase.getCaseName())
+        							#set($spanId = $spanId.replace(".","_").replace("[","_").replace("]","_"))
+        							<li>$testCase.getFullClassName().<a href="#myModal" data-toggle="modal" onclick="diffContent('$spanId')">$testCase.getCaseName()
+									<span style="display:none" id="$spanId">
+									#if($testCase.getResult().toString().equals("FAIL"))									
+										<p><b>Failure Message : - </b></p>
+										<p>$testCase.getErrorMsg()</p>
+										<p><b>Failure Type : - </b></p>
+										<p>$testCase.getErrorType()</p>
+										<p><b>Failure Trace : - </b></p>
+										<p>$testCase.getErrorTrace()</p>	
+									#elseif($testCase.getResult().toString().equals("ERROR"))
+										<p><b>Error Message : - </b></p>
+										<p>$testCase.getErrorMsg()</p>
+										<p><b>Error Type : - </b></p>
+										<p>$testCase.getErrorType()</p>
+										<p><b>Error Trace : - </b></p>
+										<p>$testCase.getErrorTrace()</p>
+									#else
+										<p><b>Test Result : - PASS</b></p>
+									#end									
+									</span>
+									</a></li>
+								#end
+    							</ul>
+      						</div>
+    					</div>
+					#end
+  				</div>
+				#set($map = $diff.getDeletedCases())
+				<div class="accordion-group">
+    				<div class="accordion-heading">
+      					<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#deletedPackages">
+        					Deleted Cases - $map.size()
+      					</a>
+    				</div>
+					#if($map.size() > 0)
+    					<div id="deletedPackages" class="accordion-body collapse">
+      						<div class="accordion-inner">
+        						<ul>
+								#foreach ($testCase in $map)
+        							#set($spanId = $testCase.getFullClassName()+"_"+$testCase.getCaseName())
+        							#set($spanId = $spanId.replace(".","_").replace("[","_").replace("]","_"))
+        							<li>$testCase.getFullClassName().<a href="#myModal" data-toggle="modal" onclick="diffContent('$spanId')">$testCase.getCaseName()
+									<span style="display:none" id="$spanId">
+									#if($testCase.getResult().toString().equals("FAIL"))									
+										<p><b>Failure Message : - </b></p>
+										<p>$testCase.getErrorMsg()</p>
+										<p><b>Failure Type : - </b></p>
+										<p>$testCase.getErrorType()</p>
+										<p><b>Failure Trace : - </b></p>
+										<p>$testCase.getErrorTrace()</p>	
+									#elseif($testCase.getResult().toString().equals("ERROR"))
+										<p><b>Error Message : - </b></p>
+										<p>$testCase.getErrorMsg()</p>
+										<p><b>Error Type : - </b></p>
+										<p>$testCase.getErrorType()</p>
+										<p><b>Error Trace : - </b></p>
+										<p>$testCase.getErrorTrace()</p>
+									#else
+										<p><b>Test Result : - PASS</b></p>
+									#end									
+									</span>
+									</a></li>
+								#end
+    							</ul>	
+      						</div>
+    					</div>
+					#end
+  				</div>
+			</div>
+  		</div>
+	</div>
+	<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  		<div class="modal-header">
+    		<h3 id="myModalLabel">Info</h3>
+  		</div>
+  		<div class="modal-body">
+  		</div>
+  		<div class="modal-footer">
+    		<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+  		</div>
+  	</div>
+</body>
+</html>
