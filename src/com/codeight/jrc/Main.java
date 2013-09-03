@@ -80,12 +80,42 @@ public class Main
 			{
 				reportName = "Report"+(reports.size()+1);
 			}
+			
+			// We are doing this to avoid parsing same reports twice.
+			boolean duplicateReport = false;
+			
+			for(TestReport testReport : reports)
+			{
+				// equalsIgnoreCase() is not used as path may be case-sensitive in some OS'
+				if(testReport.getReportPath().equals(path))
+				{
+					System.out.println("\nReports path \"" + path + "\" already parsed for the report \"" + testReport.getReportName() + "\". Hence it is skipped");
+					duplicateReport = true;
+					continue;
+				}
+			}
+			if(duplicateReport)
+			{
+				continue;
+			}
 			TestReport result = new TestReport(reportName); 
 			result.setReportPath(path);
-			read(result, path);
+			try
+			{
+				read(result, path);
+			}
+			catch (Exception e)
+			{
+				System.out.println("\nError while reading \"" + path + "\" : - " + e.getMessage());
+				continue;
+			}
 			reports.add(result);
 		}
 		
+		if(reports.size() == 1)
+		{
+			System.out.println("\nOnly 1 report is available, please provide atleast 2 valid reports to compare.");
+		}
 		for(int i = 1 ; i < reports.size() ; i ++)
 		{
 			GenerateHTML.generateDiff(new ReportDiff(reports.get(0),reports.get(i)));
@@ -98,19 +128,13 @@ public class Main
 	 * them in the {@link TestReport} class.
 	 * @param report
 	 * @param path
+	 * @throws Exception 
 	 */
-	public static void read(TestReport report, String path)
+	public static void read(TestReport report, String path) throws Exception
 	{
 		if(path.startsWith("http://"))
 		{
-			try
-			{
-				ParseXML.parse(report, new URL(path));
-			}
-			catch (Exception e)
-			{
-				e.printStackTrace();
-			}
+			ParseXML.parse(report, new URL(path));
 		}
 		else
 		{
@@ -125,14 +149,7 @@ public class Main
 			}
 			else
 			{
-				try
-				{
-					ParseXML.parse(report, file);
-				}
-				catch (Exception e)
-				{
-					e.printStackTrace();
-				}
+				ParseXML.parse(report, file);
 			}
 		}
 	}
