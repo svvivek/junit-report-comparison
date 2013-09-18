@@ -115,13 +115,13 @@ function diffContent(obj)
 									<li>$pf_Case.getFullClassName().<a href="#myModal" data-toggle="modal" onclick="diffContent('$spanId')">$pf_Case.getCaseName()
 									<span style="display:none" id="$spanId">
 									<p><b>Failure Message : - </b></p>
-									<p>$pf_Case.getErrorMsg()</p>
+									<p>$pf_Case.getErrorMsg().replace("<","&lt;").replace(">","&gt;")</p>
 									<p><b>Failure Type : - </b></p>
 									<p>$pf_Case.getErrorType()</p>
 									<p><b>Failure Trace : - </b></p>
-									<p>$pf_Case.getErrorTrace()</p>
-									</span>									
-									</a></li> 									
+									<p>$pf_Case.getErrorTrace().replace("<","&lt;").replace(">","&gt;")</p>
+									</span>
+									</a></li>
         						#end
         						</ul>
 							</div>
@@ -147,13 +147,13 @@ function diffContent(obj)
 										<li>$oldTestCase.getFullClassName().<a href="#myModal" data-toggle="modal" onclick="diffContent('$spanId')">$oldTestCase.getCaseName()
 										<span style="display:none" id="$spanId">
 										<p><b>Old Failure Message : - </b></p>
-										<p>$oldTestCase.getErrorMsg()</p>
+										<p>$oldTestCase.getErrorMsg().replace("<","&lt;").replace(">","&gt;")</p>
 										<p><b>Old Failure Type : - </b></p>
-											<p>$oldTestCase.getErrorType()</p>
+										<p>$oldTestCase.getErrorType()</p>
 										<p><b>Old Failure Trace : - </b></p>
-										<p>$oldTestCase.getErrorTrace()</p>
-										</span>									
-										</a></li> 									
+										<p>$oldTestCase.getErrorTrace().replace("<","&lt;").replace(">","&gt;")</p>
+										</span>
+										</a></li>
         							#end
         						</ul>
       						</div>
@@ -177,13 +177,13 @@ function diffContent(obj)
 									<li>$pe_Case.getFullClassName().<a href="#myModal" data-toggle="modal" onclick="diffContent('$spanId')">$pe_Case.getCaseName()
 									<span style="display:none" id="$spanId">
 									<p><b>Error Message : - </b></p>
-									<p>$pe_Case.getErrorMsg()</p>
+									<p>$pe_Case.getErrorMsg().replace("<","&lt;").replace(">","&gt;")</p>
 									<p><b>Error Type : - </b></p>
 									<p>$pe_Case.getErrorType()</p>
 									<p><b>Error Trace : - </b></p>
-									<p>$pe_Case.getErrorTrace()</p>
-									</span>									
-									</a></li> 									
+									<p>$pe_Case.getErrorTrace().replace("<","&lt;").replace(">","&gt;")</p>
+									</span>
+									</a></li>
         						#end
         						</ul>
       						</div>
@@ -209,13 +209,13 @@ function diffContent(obj)
 									<li>$oldTestCase.getFullClassName().<a href="#myModal" data-toggle="modal" onclick="diffContent('$spanId')">$oldTestCase.getCaseName()
 									<span style="display:none" id="$spanId">
 									<p><b>Old Error Message : - </b></p>
-									<p>$oldTestCase.getErrorMsg()</p>
+									<p>$oldTestCase.getErrorMsg().replace("<","&lt;").replace(">","&gt;")</p>
 									<p><b>Old Error Type : - </b></p>
 									<p>$oldTestCase.getErrorType()</p>
 									<p><b>Old Error Trace : - </b></p>
-									<p>$oldTestCase.getErrorTrace()</p>
-									</span>									
-									</a></li> 									
+									<p>$oldTestCase.getErrorTrace().replace("<","&lt;").replace(">","&gt;")</p>
+									</span>
+									</a></li>
         						#end
         						</ul>
       						</div>
@@ -241,19 +241,19 @@ function diffContent(obj)
 									<li>$oldTestCase.getFullClassName().<a href="#myModal" data-toggle="modal" onclick="diffContent('$spanId')">$oldTestCase.getCaseName()
 									<span style="display:none" id="$spanId">
 									<p><b>Old Failure Message : - </b></p>
-									<p>$oldTestCase.getErrorMsg()</p>
+									<p>$oldTestCase.getErrorMsg().replace("<","&lt;").replace(">","&gt;")</p>
 									<p><b>New Error Message : - </b></p>
-									<p>$newTestCase.getErrorMsg()</p>
+									<p>$newTestCase.getErrorMsg().replace("<","&lt;").replace(">","&gt;")</p>
 									<p><b>Old Failure Type : - </b></p>
 									<p>$oldTestCase.getErrorType()</p>
 									<p><b>New Error Type : - </b></p>
 									<p>$newTestCase.getErrorType()</p>
 									<p><b>Old Failure Trace : - </b></p>
-									<p>$oldTestCase.getErrorTrace()</p>
+									<p>$oldTestCase.getErrorTrace().replace("<","&lt;").replace(">","&gt;")</p>
 									<p><b>New Error Trace : - </b></p>
-									<p>$newTestCase.getErrorTrace()</p>
-									</span>									
-									</a></li> 									
+									<p>$newTestCase.getErrorTrace().replace("<","&lt;").replace(">","&gt;")</p>
+									</span>
+									</a></li>
         						#end
         						</ul>
       						</div>
@@ -279,19 +279,19 @@ function diffContent(obj)
 									<li>$oldTestCase.getFullClassName().<a href="#myModal" data-toggle="modal" onclick="diffContent('$spanId')">$oldTestCase.getCaseName()
 									<span style="display:none" id="$spanId">
 									<p><b>Old Error Message : - </b></p>
-									<p>$oldTestCase.getErrorMsg()</p>
+									<p>$oldTestCase.getErrorMsg().replace("<","&lt;").replace(">","&gt;")</p>
 									<p><b>New Failure Message : - </b></p>
-									<p>$newTestCase.getErrorMsg()</p>
+									<p>$newTestCase.getErrorMsg().replace("<","&lt;").replace(">","&gt;")</p>
 									<p><b>Old Error Type : - </b></p>
 									<p>$oldTestCase.getErrorType()</p>
 									<p><b>New Failure Type : - </b></p>
 									<p>$newTestCase.getErrorType()</p>
 									<p><b>Old Error Trace : - </b></p>
-									<p>$oldTestCase.getErrorTrace()</p>
+									<p>$oldTestCase.getErrorTrace().replace("<","&lt;").replace(">","&gt;")</p>
 									<p><b>New Failure Trace : - </b></p>
-									<p>$newTestCase.getErrorTrace()</p>
-									</span>									
-									</a></li> 									
+									<p>$newTestCase.getErrorTrace().replace("<","&lt;").replace(">","&gt;")</p>
+									</span>
+									</a></li>
         						#end
         						</ul>
       						</div>
@@ -317,17 +317,17 @@ function diffContent(obj)
 									<li>$newTestCase.getFullClassName().<a href="#myModal" data-toggle="modal" onclick="diffContent('$spanId')">$newTestCase.getCaseName()
 									<span style="display:none" id="$spanId">
 									<p><b>Old Failure Message : - </b></p>
-									<p>$oldTestCase.getErrorMsg()</p>
+									<p>$oldTestCase.getErrorMsg().replace("<","&lt;").replace(">","&gt;")</p>
 									<p><b>New Failure Message : - </b></p>
-									<p>$newTestCase.getErrorMsg()</p>
+									<p>$newTestCase.getErrorMsg().replace("<","&lt;").replace(">","&gt;")</p>
 									<p><b>Old Failure Type : - </b></p>
 									<p>$oldTestCase.getErrorType()</p>
 									<p><b>New Failure Type : - </b></p>
 									<p>$newTestCase.getErrorType()</p>
 									<p><b>Old Failure Trace : - </b></p>
-									<p>$oldTestCase.getErrorTrace()</p>
+									<p>$oldTestCase.getErrorTrace().replace("<","&lt;").replace(">","&gt;")</p>
 									<p><b>New Failure Trace : - </b></p>
-									<p>$newTestCase.getErrorTrace()</p>
+									<p>$newTestCase.getErrorTrace().replace("<","&lt;").replace(">","&gt;")</p>
 									</span>
 									</a></li>
 								#end
@@ -355,17 +355,17 @@ function diffContent(obj)
 									<li>$newTestCase.getFullClassName().<a href="#myModal" data-toggle="modal" onclick="diffContent('$spanId')">$newTestCase.getCaseName()
 									<span style="display:none" id="$spanId">
 									<p><b>Old Error Message : - </b></p>
-									<p>$oldTestCase.getErrorMsg()</p>
+									<p>$oldTestCase.getErrorMsg().replace("<","&lt;").replace(">","&gt;")</p>
 									<p><b>New Error Message : - </b></p>
-									<p>$newTestCase.getErrorMsg()</p>
+									<p>$newTestCase.getErrorMsg().replace("<","&lt;").replace(">","&gt;")</p>
 									<p><b>Old Error Type : - </b></p>
 									<p>$oldTestCase.getErrorType()</p>
 									<p><b>New Error Type : - </b></p>
 									<p>$newTestCase.getErrorType()</p>
 									<p><b>Old Error Trace : - </b></p>
-									<p>$oldTestCase.getErrorTrace()</p>
+									<p>$oldTestCase.getErrorTrace().replace("<","&lt;").replace(">","&gt;")</p>
 									<p><b>New Error Trace : - </b></p>
-									<p>$newTestCase.getErrorTrace()</p>
+									<p>$newTestCase.getErrorTrace().replace("<","&lt;").replace(">","&gt;")</p>
 									</span>
 									</a></li>
 								#end
@@ -392,18 +392,18 @@ function diffContent(obj)
 									<span style="display:none" id="$spanId">
 									#if($testCase.getResult().toString().equals("FAIL"))									
 										<p><b>Failure Message : - </b></p>
-										<p>$testCase.getErrorMsg()</p>
+										<p>$testCase.getErrorMsg().replace("<","&lt;").replace(">","&gt;")</p>
 										<p><b>Failure Type : - </b></p>
 										<p>$testCase.getErrorType()</p>
 										<p><b>Failure Trace : - </b></p>
-										<p>$testCase.getErrorTrace()</p>	
+										<p>$testCase.getErrorTrace().replace("<","&lt;").replace(">","&gt;")</p>
 									#elseif($testCase.getResult().toString().equals("ERROR"))
 										<p><b>Error Message : - </b></p>
-										<p>$testCase.getErrorMsg()</p>
+										<p>$testCase.getErrorMsg().replace("<","&lt;").replace(">","&gt;")</p>
 										<p><b>Error Type : - </b></p>
 										<p>$testCase.getErrorType()</p>
 										<p><b>Error Trace : - </b></p>
-										<p>$testCase.getErrorTrace()</p>
+										<p>$testCase.getErrorTrace().replace("<","&lt;").replace(">","&gt;")</p>
 									#else
 										<p><b>Test Result : - PASS</b></p>
 									#end									
@@ -433,18 +433,18 @@ function diffContent(obj)
 									<span style="display:none" id="$spanId">
 									#if($testCase.getResult().toString().equals("FAIL"))									
 										<p><b>Failure Message : - </b></p>
-										<p>$testCase.getErrorMsg()</p>
+										<p>$testCase.getErrorMsg().replace("<","&lt;").replace(">","&gt;")</p>
 										<p><b>Failure Type : - </b></p>
 										<p>$testCase.getErrorType()</p>
 										<p><b>Failure Trace : - </b></p>
-										<p>$testCase.getErrorTrace()</p>	
+										<p>$testCase.getErrorTrace().replace("<","&lt;").replace(">","&gt;")</p>
 									#elseif($testCase.getResult().toString().equals("ERROR"))
 										<p><b>Error Message : - </b></p>
-										<p>$testCase.getErrorMsg()</p>
+										<p>$testCase.getErrorMsg().replace("<","&lt;").replace(">","&gt;")</p>
 										<p><b>Error Type : - </b></p>
 										<p>$testCase.getErrorType()</p>
 										<p><b>Error Trace : - </b></p>
-										<p>$testCase.getErrorTrace()</p>
+										<p>$testCase.getErrorTrace().replace("<","&lt;").replace(">","&gt;")</p>
 									#else
 										<p><b>Test Result : - PASS</b></p>
 									#end									
